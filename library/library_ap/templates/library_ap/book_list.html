@@ -1,0 +1,88 @@
+{% extends 'library_ap/main.html' %}
+
+{% block content %}
+<div >
+    <div >
+        <form method="get" action="{% url 'search_books' %}">
+            <div >
+                <input type="text" name="q"  placeholder="جستجو بر اساس عنوان یا نویسنده">
+                <div >
+                    <button  type="submit">جستجو</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div>
+        <form method="get" action="{% url 'filter_books' %}" >
+            <div >
+                <label for="genre">ژانر:</label>
+                <select name="genre" id="genre" >
+                    <option value="All">همه</option>
+                    {% for g in genres %}
+                        <option value="{{ g.name }}">{{ g.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div >
+                <label for="publisher">ناشر:</label>
+                <select name="publisher" id="publisher" >
+                    <option value="All">همه</option>
+                    {% for p in publishers %}
+                        <option value="{{ p.name }}">{{ p.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div >
+                <label for="author">نویسنده:</label>
+                <select name="author" id="author" >
+                    <option value="All">همه</option>
+                    {% for a in authors %}
+                        <option value="{{ a.last_name }}">{{ a.last_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" >فیلتر</button>
+        </form>
+    </div>
+</div>
+
+<form method="post" action="{% url 'delete_by_filter' %}">
+    {% csrf_token %}
+    <button type="submit" >حذف کتاب‌های انتخاب شده</button>
+    <table>
+        <thead>
+            <tr>
+                <th>عنوان</th>
+                <th>نویسنده</th>
+                <th>ناشر</th>
+                <th>ژانر</th>
+                <th>ISBN</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.publisher }}</td>
+                <td>
+                    {% for genre in book.genre.all %}
+                        {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ book.isbn }}</td>
+                <td>
+                    <a href="{% url 'edit_book' book.pk %}">ویرایش</a>
+                    <a href="{% url 'delete_book' book.pk %}" >حذف</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">کتابی یافت نشد.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+{% endblock %}

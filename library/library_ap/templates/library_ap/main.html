@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>سیستم مدیریت کتابخانه</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">سیستم مدیریت کتابخانه</h1>
+        <nav class="mb-4">
+            <a href="{% url 'book_list' %}" >لیست کتاب‌ها</a>
+            <a href="{% url 'create' %}" >افزودن کتاب جدید</a>
+            <li><a href="{% url 'add_author' %}">نویسنده جدید</a></li>
+            <li><a href="{% url 'add_genre' %}">ژانر جدید</a></li>
+            <li><a href="{% url 'add_publisher' %}">ناشر جدید</a></li>
+        </nav>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

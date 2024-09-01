@@ -1,0 +1,41 @@
+{% extends 'library_ap/main.html' %}
+
+{% block content %}
+<h2>حذف کتاب‌های فیلتر شده</h2>
+<p>آیا مطمئن هستید که می‌خواهید کتاب‌های فیلتر شده را حذف کنید؟</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>عنوان</th>
+            <th>نویسنده</th>
+            <th>ناشر</th>
+            <th>ژانر</th>
+            <th>ISBN</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.publisher }}</td>
+            <td>
+                {% for genre in book.genre.all %}
+                    {{ genre.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{ book.isbn }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">کتابی برای حذف وجود ندارد.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">حذف کتاب‌ها</button>
+    <a href="{% url 'book_list' %}" class="btn btn-secondary">بازگشت</a>
+</form>
+{% endblock %}

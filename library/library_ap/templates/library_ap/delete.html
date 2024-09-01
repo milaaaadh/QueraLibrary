@@ -1,0 +1,11 @@
+{% extends 'library_ap/main.html' %}
+
+{% block content %}
+<h2>حذف کتاب: {{ book.title }}</h2>
+<p>آیا مطمئن هستید که می‌خواهید این کتاب را حذف کنید؟</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">حذف</button>
+    <a href="{% url 'book_list' %}" class="btn btn-secondary">لغو</a>
+</form>
+{% endblock %}
