@@ -1,9 +1,11 @@
 from django.db import models
 
 class Publisher(models.Model):
-    name = models.CharField(primary_key=True,max_length=200, help_text='Enter the publisher name')
-    address = models.CharField(max_length=300, blank=True, help_text='Enter the publisher address')
-    website = models.URLField(max_length=200, blank=True, help_text='Enter the publisher website')
+    name = models.CharField(primary_key=True,max_length=200)
+    address = models.CharField(max_length=300, blank=True)
+    website = models.URLField(max_length=200, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
